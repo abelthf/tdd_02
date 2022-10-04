@@ -1,3 +1,6 @@
+class InvalidQuantityException(Exception):
+    pass
+
 class Inventario:
     def __init__(self, limite=100):
         self.limite = limite

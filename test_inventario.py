@@ -1,5 +1,6 @@
 import pytest
 
+from inventario import InvalidQuantityException
 from inventario import Inventario
 
 def test_compra_y_venta_nikes_adidas():
@@ -51,3 +52,19 @@ def test_add_nuevo_stock_satisfactorio(no_stock_inventario):
     assert no_stock_inventario.total_items == 5
     assert no_stock_inventario.stocks['Test Casaca']['precio'] == 10.00
     assert no_stock_inventario.stocks['Test Casaca']['cantidad'] == 5
+
+
+@pytest.mark.parametrize('nombre,precio,cantidad,exception', [
+    ('Test Casaca', 10.00, 0, InvalidQuantityException(
+        'No se puede agregar una cantidad de 0. Todo stock nuevo debe tener al menos 1 item'))])
+def test_add_new_stock_bad_input(nombre, precio, cantidad, exception):
+    inventario = Inventario(10)
+    try:
+        inventario.add_nuevo_stock(nombre, precio, cantidad)
+    except InvalidQuantityException as inst:
+        # Primero asegurese de que la excepcion sea del tipo correcto
+        assert isinstance(inst, type(exception))
+        # Asegurarse de que las excepciones tengan el mismo mensaje
+        assert inst.args == exception.args
+    else:
+        pytest.fail("Error esperado pero no encontrado")
