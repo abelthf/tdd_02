@@ -19,5 +19,13 @@ class Inventario:
                     cantidad
                 )
             )
+
+        if self.total_items + cantidad > self.limite:
+            remaining_space = self.limite - self.total_items
+            raise NoSpaceException(
+                "No se pueden agregar estos {} items. Solo se pueden almacenar {} items mas".format(
+                    cantidad, remaining_space
+                )
+            )
         self.stocks[nombre] = {"precio": precio, "cantidad": cantidad}
         self.total_items += cantidad
