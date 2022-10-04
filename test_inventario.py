@@ -1,3 +1,5 @@
+from inventario import Inventario
+
 def test_compra_y_venta_nikes_adidas():
     # Creaci√≥n de objeto inventario
     inventario = Inventario()
@@ -19,3 +21,18 @@ def test_compra_y_venta_nikes_adidas():
     # Retira 1 pantalon de chandal para venderlo al proximo cliente
     inventario.remueve_stock('patanlones adidas', 1)
     assert inventario.total_items == 12
+
+
+def test_inventario_default():
+    """Test que tiene por defecto el limite = 100"""
+    inventario = Inventario()
+    assert inventario.limite == 100
+    assert inventario.total_items == 0
+
+
+def test_limite_inventario_personalizado():
+    """Test que tiene un limite personalizado"""
+    inventario = Inventario(limite=25)
+    assert inventario.limite == 25
+    assert inventario.total_items == 0
+    return Inventario(10)
