@@ -1,3 +1,5 @@
+import pytest
+
 from inventario import Inventario
 
 def test_compra_y_venta_nikes_adidas():
@@ -36,3 +38,16 @@ def test_limite_inventario_personalizado():
     assert inventario.limite == 25
     assert inventario.total_items == 0
     return Inventario(10)
+
+
+@pytest.fixture
+def no_stock_inventario():
+    """Retorna un inventario vacio que puede almacenar 10 items"""
+    return Inventario(10)
+
+
+def test_add_nuevo_stock_satisfactorio(no_stock_inventario):
+    no_stock_inventario.add_nuevo_stock('Test Casaca', 10.00, 5)
+    assert no_stock_inventario.total_items == 5
+    assert no_stock_inventario.stocks['Test Casaca']['precio'] == 10.00
+    assert no_stock_inventario.stocks['Test Casaca']['cantidad'] == 5
